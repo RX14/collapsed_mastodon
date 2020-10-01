@@ -149,12 +149,6 @@ function work(version) {
 function checkkeydown(event) {
 	switch (event.keyCode) {
 		case 13:
-			// If we use the Ctrl+Enter key combo, we are focused on the composer textarea and the send button is not disabled we expect to send the toot and pull back to its container
-			if (event.ctrlKey && document.activeElement == textarea && !send.disabled) {
-				undoMinimalScroll(formw);
-				containerw.appendChild(formw);
-				containerw.style.display = "none";
-			}
 			// If we are focused on the search input, we make preparations to display results
 			if (document.activeElement == inputs) {
 				formd.style.display = "flex";
