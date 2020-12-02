@@ -5,7 +5,7 @@
 // @description  Collapses Mastodon webapp drawer and integrates replies inside the timelines in a Tweetdeck style.
 // @author       Óliver García Albertos, Stephanie Wilde-Hobbs
 // @match        https://*/web/*
-// @grant        none
+// @grant        GM_addStyle
 // ==/UserScript==
 
 (function() {
@@ -27,12 +27,8 @@
 
     // Once DOM is loaded we create any required HTML elements, inject custom CSS and register for events
     function work(version) {
-        // Create the base stylesheet
-        let sheet = document.createElement('style');
-        // Print the classes inside the element
-        let style
         if (version == "mastodon") {
-            style = document.createTextNode(`
+            GM_addStyle(`
                 .drawer__header { flex-direction: column }
                 .drawer__header > * { padding: 0 }
                 .drawer__header > *:hover { cursor: pointer }
@@ -48,7 +44,7 @@
                 .search-results__section { width: 50% }
             `);
         } else if (version == "pleroma") {
-            style = document.createTextNode(`
+            GM_addStyle(`
                 .drawer--header { flex-direction: column }
                 .drawer--header > * { padding: 0 }
                 .drawer--header > *:hover { cursor: pointer }
@@ -65,20 +61,16 @@
                 .drawer--results > section { width: 50% }
             `);
         }
-        sheet.appendChild(style);
         if (version == "mastodon") {
             let enable = "true";
 
             // Only disable it if we especifically changed the preference
             if (enable == "false") {
-                style = document.createTextNode('.column { flex: 0 0 auto }');
+                GM_addStyle('.column { flex: 0 0 auto }');
             } else {
-                style = document.createTextNode('.column { flex: 1 1 auto }');
+                GM_addStyle('.column { flex: 1 1 auto }');
             }
-            sheet.appendChild(style);
         }
-        // Add the the stylesheet to the head of the webpage
-        document.getElementsByTagName('head')[0].appendChild(sheet);
 
         // Some general elements to refer them just once rather than retrieving everytime
         // Textarea to write toots
